@@ -41,7 +41,16 @@ jobs:
         with:
           path: tools/bin
           key: ${{ runner.os }}-${{ hashFiles('tools/bin') }}
+          restore-keys: |
+            ${{ runner.os }}-
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: echo This is going to install my dependencies
+        run: |
+          # download v1.15.1 assuming amd64
+          assetURL=$(curl -s https://api.github.com/repos/operator-framework/operator-registry/releases/tags/v1.15.1 | jq -r '.assets[] | select(.browser_download_url | contains("linux-amd64")) | .url')
+          curl -sJL -H "Accept: application/octet-stream" -o tools/bin/opmv1.15.1 $assetURL
+          chmod 755 tools/bin/opmv1.15.1
+
+      - name: Test Installed
+        run: tools/bin/opmv1.15.1 version
