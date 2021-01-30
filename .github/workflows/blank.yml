@@ -40,9 +40,7 @@ jobs:
         id: cache
         with:
           path: tools/bin
-          key: ${{ runner.os }}-${{ hashFiles('tools/bin') }}
-          restore-keys: |
-            ${{ runner.os }}-
+          key: ${{ runner.os }}-${{ hashFiles('tools/bin/tools.md') }}
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
