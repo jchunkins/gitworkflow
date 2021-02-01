@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: installDependencies.sh
+        run: "${GITHUB_WORKSPACE}/installDependencies.sh"
 
       - name: Test Installed
         run: |
