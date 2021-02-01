@@ -34,6 +34,9 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('tools/bin/tools.md') }}
 
       - name: Install Dependencies
+        env:
+          RH_PASSWORD: ${{ secrets.RH_PASSWORD }}
+          RH_USER: ${{ secrets.RH_USER }}
         if: steps.cache.outputs.cache-hit != 'true'
         run: "${GITHUB_WORKSPACE}/installDependencies.sh"
 
