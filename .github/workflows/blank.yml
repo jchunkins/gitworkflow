@@ -19,21 +19,12 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    env:
+      TOOLS_BIN: tools/bin
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
 
       - name: Cache required binary files
         uses: actions/cache@v2
@@ -44,11 +35,11 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          # download v1.15.1 assuming amd64
-          assetURL=$(curl -s https://api.github.com/repos/operator-framework/operator-registry/releases/tags/v1.15.1 | jq -r '.assets[] | select(.browser_download_url | contains("linux-amd64")) | .url')
-          curl -sJL -H "Accept: application/octet-stream" -o tools/bin/opmv1.15.1 $assetURL
-          chmod 755 tools/bin/opmv1.15.1
+        run: installDependencies.sh
 
       - name: Test Installed
-        run: tools/bin/opmv1.15.1 version
+        run: |
+          echo "[oc output] " && "${TOOLS_BIN}/ocv4.5.0" version
+          echo "[opm downstream output] " && "${TOOLS_BIN}/opmdownv1.14.3" version
+          echo "[opm upstream output] " && "${TOOLS_BIN}/opmupv1.15.1" version
+
