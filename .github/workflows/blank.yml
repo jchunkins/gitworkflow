@@ -20,7 +20,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
     env:
-      TOOLS_BIN: tools/bin
+      TOOLS_BIN: tools/binary
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -30,8 +30,8 @@ jobs:
         uses: actions/cache@v2
         id: cache
         with:
-          path: tools/bin
-          key: ${{ runner.os }}-${{ hashFiles('tools/bin/tools.md') }}
+          path: ${{ env.TOOLS_BIN }}
+          key: ${{ runner.os }}-${{ hashFiles(env.TOOLS_BIN/tools.md") }}
 
       - name: Install Dependencies
         env:
