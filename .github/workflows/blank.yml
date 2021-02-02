@@ -31,7 +31,7 @@ jobs:
         id: cache
         with:
           path: ${{ env.TOOLS_BIN }}
-          key: ${{ runner.os }}-${{ hashFiles(env.TOOLS_BIN/tools.md") }}
+          key: ${{ runner.os }}-${{ hashFiles(format('{0}/tools.md', env.TOOLS_BIN)) }}
 
       - name: Install Dependencies
         env:
