@@ -42,7 +42,8 @@ jobs:
 
       - name: Test Installed
         run: |
-          echo "[oc output] " && "${TOOLS_BIN}/ocv4.5.0" version
-          echo "[opm downstream output] " && "${TOOLS_BIN}/opmdownv1.14.3" version
-          echo "[opm upstream output] " && "${TOOLS_BIN}/opmupv1.15.1" version
+          echo "${GITHUB_WORKSPACE}/${TOOLS_BIN}"
+          echo "[oc output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN}/ocv4.5.0" version
+          echo "[opm downstream output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN}/opmdownv1.14.3" version
+          echo "[opm upstream output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN}/opmupv1.15.1" version
 
