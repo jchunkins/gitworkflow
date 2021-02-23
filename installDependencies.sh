@@ -72,6 +72,7 @@ function installDownstreamOpm()
         if echo "${RH_PASSWORD}" | docker login registry.redhat.io -u "\"${RH_USER}\"" --password-stdin &>/dev/null; then
             # create a offline container
             if containerReference=$(docker create "${opmCatalogBinaryImage}"); then
+                set -x
                 # extract binary to tools bin and make it executable
                 docker cp "${containerReference}:/usr/bin/${executableName}" "${TOOLS_BIN}" && \
                     mv "${TOOLS_BIN}/${executableName}" "${TOOLS_BIN}/${opmPrefix}${version}" && \
