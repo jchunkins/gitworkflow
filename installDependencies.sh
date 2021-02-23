@@ -72,7 +72,6 @@ function installDownstreamOpm()
         if echo "${RH_PASSWORD}" | docker login registry.redhat.io -u "\"${RH_USER}\"" --password-stdin &>/dev/null; then
             # create a offline container
             if containerReference=$(docker create "${opmCatalogBinaryImage}"); then
-                set -x
                 # extract binary to tools bin and make it executable
                 docker cp "${containerReference}:/usr/bin/${executableName}" "${TOOLS_BIN}" && \
                     ls -al "${TOOLS_BIN}" && \
@@ -127,7 +126,7 @@ function installOC()
         fi
     fi
 }
-
+set -x
 # install all tools and bail at first sign of trouble
 installOC "4.5.0" || exit $?
 installUptreamOpm "v1.15.1" || exit $?
