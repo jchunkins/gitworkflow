@@ -75,7 +75,7 @@ function installDownstreamOpm()
                 set -x
                 # extract binary to tools bin and make it executable
                 docker cp "${containerReference}:/usr/bin/${executableName}" "${TOOLS_BIN}" && \
-                    mv "${TOOLS_BIN}/${executableName}" "${TOOLS_BIN}/${opmPrefix}${version}" && \
+                    mv -f "${TOOLS_BIN}/${executableName}" "${TOOLS_BIN}/${opmPrefix}${version}" && \
                     chmod 755 "${TOOLS_BIN}/${opmPrefix}${version}"
             else
                 # can't create offline container
