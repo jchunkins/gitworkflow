@@ -20,7 +20,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
     env:
-      TOOLS_BIN: tools/binary
+      TOOLS_BIN_RELATIVE_PATH: tools/binary
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -30,20 +30,20 @@ jobs:
         uses: actions/cache@v2
         id: cache
         with:
-          path: ${{ env.TOOLS_BIN }}
-          key: ${{ runner.os }}-${{ hashFiles(format('{0}/tools.md', env.TOOLS_BIN)) }}
+          path: ${{ env.TOOLS_BIN_RELATIVE_PATH }}
+          key: ${{ runner.os }}-${{ hashFiles(format('{0}/tools.md', env.TOOLS_BIN_RELATIVE_PATH)) }}
 
       - name: Install Dependencies
         env:
           RH_PASSWORD: ${{ secrets.RH_PASSWORD }}
           RH_USER: ${{ secrets.RH_USER }}
         if: steps.cache.outputs.cache-hit != 'true'
-        run: "${GITHUB_WORKSPACE}/installDependencies.sh"
+        run: "${GITHUB_WORKSPACE}/installDependencies.sh \"${GITHUB_WORKSPACE}/${TOOLS_BIN_RELATIVE_PATH}\""
 
       - name: Test Installed
         run: |
-          echo "${GITHUB_WORKSPACE}/${TOOLS_BIN}"
-          echo "[oc output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN}/ocv4.5.0" version
-          echo "[opm downstream output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN}/opmdownv1.14.3" version
-          echo "[opm upstream output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN}/opmupv1.15.1" version
+          echo "${GITHUB_WORKSPACE}/${TOOLS_BIN_RELATIVE_PATH}"
+          echo "[oc output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN_RELATIVE_PATH}/ocv4.5.0" version
+          echo "[opm downstream output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN_RELATIVE_PATH}/opmdownv1.14.3" version
+          echo "[opm upstream output] " && "${GITHUB_WORKSPACE}/${TOOLS_BIN_RELATIVE_PATH}/opmupv1.15.1" version
 

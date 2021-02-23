@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 # The following env vars must be set and non-empty 
-: "${TOOLS_BIN:?Need to set TOOLS_BIN to the location where binary tools will be downloaded}"
+# : "${TOOLS_BIN:?Need to set TOOLS_BIN to the location where binary tools will be downloaded}"
 : "${RH_PASSWORD:?Need to set RH_PASSWORD to the password used to access registry.redhat.io}"
 : "${RH_USER:?Need to set RH_USER to the username used to access registry.redhat.io}"
+
+TOOLS_BIN="${1?"Need to set full path to the location where binary tools will be downloaded"}"
 
 mkdir -p "${TOOLS_BIN}"
 
