@@ -74,9 +74,7 @@ function installDownstreamOpm()
             if containerReference=$(docker create "${opmCatalogBinaryImage}"); then
                 # extract binary to tools bin and make it executable
                 docker cp --follow-link "${containerReference}:/usr/bin/${executableName}" "${TOOLS_BIN}" && \
-                    ls -al "${TOOLS_BIN}" && \
-                    mv -f "${TOOLS_BIN}/${executableName}" "${TOOLS_BIN}/${opmPrefix}${version}" && \
-                    ls -al "${TOOLS_BIN}" && \
+                    mv "${TOOLS_BIN}/${executableName}" "${TOOLS_BIN}/${opmPrefix}${version}" && \
                     chmod 755 "${TOOLS_BIN}/${opmPrefix}${version}"
             else
                 # can't create offline container
@@ -126,7 +124,7 @@ function installOC()
         fi
     fi
 }
-set -x
+
 # install all tools and bail at first sign of trouble
 installOC "4.5.0" || exit $?
 installUptreamOpm "v1.15.1" || exit $?
