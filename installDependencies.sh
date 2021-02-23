@@ -73,7 +73,7 @@ function installDownstreamOpm()
             # create a offline container
             if containerReference=$(docker create "${opmCatalogBinaryImage}"); then
                 # extract binary to tools bin and make it executable
-                docker cp "${containerReference}:/usr/bin/${executableName}" "${TOOLS_BIN}" && \
+                docker cp --follow-link "${containerReference}:/usr/bin/${executableName}" "${TOOLS_BIN}" && \
                     ls -al "${TOOLS_BIN}" && \
                     mv -f "${TOOLS_BIN}/${executableName}" "${TOOLS_BIN}/${opmPrefix}${version}" && \
                     ls -al "${TOOLS_BIN}" && \
